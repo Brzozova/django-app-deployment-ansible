@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+
+  roles:
+    - { role: installation, tags: install }
+
+  tasks:
+
+    - name: 
+      include: 

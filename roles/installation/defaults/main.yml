@@ -1,0 +1,12 @@
+---
+venv_name: ''
+path_to_django: ''
+django_version '3.0.11'
+packages:
+    - sudo
+    - vim
+    - git
+    - curl
+    - net-tools
+    - screen
+

@@ -1,0 +1,40 @@
+---
+
+- name: "Install required packages"
+  apt: pkg={{ item }} state=latest update_cache=true
+  loop:
+    - "{{ packages }}"
+
+- name: Create webside dir
+  file:
+    path: {{ path_to_django}}
+    state: directory
+
+- name: "Create a virtual environment"
+  command: "python3 -m venv {{ venv_name }}"
+  args: 
+    chdir: {{ path_to_django }}
+    creates: {{ path_to_django }}
+
+- name: "Activate virtual environment"
+  command: "source {{ venv_name }}/bin/activate"
+  args:
+    chdir: {{ path_to_django }}
+
+- name: "Upgrade pip to the latest version"
+  command: "python -m pip install --upgrade pip"
+  args:
+    chdir: {{ path_to_django }}
+
+
+- name: Define Django version
+  blockinfile:
+    path: "{{ path_to_django }}/requirements.txt"
+    block: |
+      Django~={{ django_version }}
+
+- name: "Install Django {{ django_version }}"
+  command: "pip install -r requirements.txt"
+  args:
+    chdir: {{ path_to_django }}
+
